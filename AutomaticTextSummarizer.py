@@ -18,7 +18,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 SUMMARY_POINTS = 5
 
 
-# open file and return content as a string
+# function to open input file and return content as a string
 def open_file_to_summarize():
     with open('text_to_summarize.txt', encoding="utf8") as file:
         data = file.read().replace('\n', ' ')
@@ -74,6 +74,7 @@ def create_word_vectors():
     return word_vectors
 
 
+# apply the bulk of the NLP Automatic Text Summarizer Algorithm
 def alg(word_vectors, sentence_with_stopwords_removed, sentences):
     sentence_vectors = get_sentence_vectors(word_vectors, sentence_with_stopwords_removed)
     similarity_matrix = create_similarity_matrix(sentence_vectors, sentences)
@@ -82,6 +83,7 @@ def alg(word_vectors, sentence_with_stopwords_removed, sentences):
     return ranked_sentences
 
 
+# function to create sentence vectors from word vectors
 def get_sentence_vectors(word_vectors, sentence_with_stopwords_removed):
     sentence_vectors = []
     for i in sentence_with_stopwords_removed:
@@ -98,6 +100,7 @@ def get_sentence_vectors(word_vectors, sentence_with_stopwords_removed):
     return sentence_vectors
 
 
+# function to create a matrix that contains similarity scores between sentences
 def create_similarity_matrix(sentence_vectors, sentences):
     similarity_matrix = np.zeros([len(sentences), len(sentences)])
     for i in range(len(sentences)):
@@ -108,6 +111,7 @@ def create_similarity_matrix(sentence_vectors, sentences):
     return similarity_matrix
 
 
+# function to convert the similarity matrix to a graph and apply PageRank (TextRank) algorithm on it
 def text_rank(similarity_matrix, sentences):
     nx_graph = nx.from_numpy_array(similarity_matrix)
     scores = nx.pagerank(nx_graph)
@@ -121,6 +125,7 @@ def text_rank(similarity_matrix, sentences):
     return ranked_sentences
 
 
+# function to print the results to the console and an output file
 def print_to_file(ranked_sentences, num_sentences):
     a_file = open("summarized_text.txt", "w")
     for i in range(num_sentences):
@@ -129,6 +134,7 @@ def print_to_file(ranked_sentences, num_sentences):
     a_file.close()
 
 
+# main function
 if __name__ == '__main__':
     raw_text = open_file_to_summarize()
     sentences = tokenize_sentences(raw_text)
