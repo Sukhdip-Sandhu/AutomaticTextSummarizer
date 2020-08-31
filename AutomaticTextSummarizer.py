@@ -1,3 +1,10 @@
+"""
+The following resources were used when creating the program:
+https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf
+https://www.analyticsvidhya.com/blog/2018/11/introduction-text-summarization-textrank-python/
+https://towardsdatascience.com/understand-text-summarization-and-create-your-own-summarizer-in-python-b26a9f09fc70
+"""
+
 import pickle
 import re
 from os import path
