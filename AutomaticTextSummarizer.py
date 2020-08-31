@@ -55,8 +55,7 @@ def create_word_vectors():
         a_file = open("glove.6B.300d.txt", encoding='utf-8')
         for line in a_file:
             values = line.split()
-            weights = np.asarray(values[1:], dtype='float32')
-            word_vectors[values[0]] = weights
+            word_vectors[values[0]] = np.asarray(values[1:], dtype='float32')
         a_file.close()
         a_file = open("glove.6B.300d.pkl", "wb")
         pickle.dump(word_vectors, a_file)
@@ -66,6 +65,14 @@ def create_word_vectors():
         word_vectors = pickle.load(a_file)
         a_file.close()
     return word_vectors
+
+
+def alg(word_vectors, sentence_with_stopwords_removed, sentences):
+    sentence_vectors = get_sentence_vectors(word_vectors, sentence_with_stopwords_removed)
+    similarity_matrix = create_similarity_matrix(sentence_vectors, sentences)
+    ranked_sentences = text_rank(similarity_matrix, sentences)
+    ranked_sentences = ranked_sentences[::-1]
+    return ranked_sentences
 
 
 def get_sentence_vectors(word_vectors, sentence_with_stopwords_removed):
@@ -104,14 +111,6 @@ def text_rank(similarity_matrix, sentences):
 
     scores_list, sentences = zip(*sorted(zip(scores_list, sentences)))
     ranked_sentences = sentences
-    return ranked_sentences
-
-
-def alg(word_vectors, sentence_with_stopwords_removed, sentences):
-    sentence_vectors = get_sentence_vectors(word_vectors, sentence_with_stopwords_removed)
-    similarity_matrix = create_similarity_matrix(sentence_vectors, sentences)
-    ranked_sentences = text_rank(similarity_matrix, sentences)
-    ranked_sentences = ranked_sentences[::-1]
     return ranked_sentences
 
 
