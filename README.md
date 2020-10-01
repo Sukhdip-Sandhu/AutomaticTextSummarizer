@@ -1,5 +1,4 @@
 **AutomaticTextSummarizer**
-Sukhdip Sandhu | V00 851 393
 ---
 ##### USAGE GUIDE:
 * In order to run the program, the following requirements are needed:
